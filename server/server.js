@@ -1,6 +1,6 @@
 import cookieParser from 'cookie-parser';
 import express from 'express';
-import cors from 'cors';
+import cors from 'cors'
 import connectDB from './configs/db.js';
 import 'dotenv/config';
 import userRouter from './routes/userRoute.js';
@@ -12,59 +12,33 @@ import addressRouter from './routes/addressRoute.js';
 import orderRouter from './routes/orderRoute.js';
 import { stripeWebhooks } from './controllers/orderController.js';
 
-const app = express();
-const port = process.env.PORT || 4000;
+const app=express();
+//select the port
+const port=process.env.PORT || 4000;
 
-// Connect to DB and Cloudinary
-await connectDB();
-await connectCloudinary();
+await connectDB()
+await connectCloudinary()
 
-// Allowed origins
-const allowedOrigins = ['http://localhost:5173', 'https://greencart-zapi.vercel.app'];
+//allow multiple origins
+const allowedOrigins=['http://localhost:5173','https://greencart-one-iota.vercel.app']
 
-// ✅ Stripe Webhook route (raw body)
-app.post('/stripe', express.raw({ type: 'application/json' }), stripeWebhooks);
+app.post('/stripe',express.raw({type: 'application/json'}),stripeWebhooks)
 
-// ✅ CORS middleware - dynamic origin + credentials support
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin) return callback(null, true); // Allow non-browser requests (e.g., Postman)
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    } else {
-      return callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true
-}));
-
-// ✅ Handle preflight requests
-app.options('*', cors({
-  origin: function (origin, callback) {
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    } else {
-      return callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true
-}));
-
-// ✅ Other middleware
+//middleware config.
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors({origin: allowedOrigins,credentials:true}));
 
-// ✅ Routes
-app.get('/', (req, res) => res.send("API is Working"));
-app.use('/api/user', userRouter);
-app.use('/api/seller', sellerRouter);
-app.use('/api/product', productRouter);
-app.use('/api/address', addressRouter);
-app.use('/api/order', orderRouter);
-app.use('/api/cart', cartRouter);
+app.get('/', (req,res)=>res.send("API is Working"));
+app.use('/api/user',userRouter)
+app.use('/api/seller',sellerRouter)
+app.use('/api/product',productRouter)
+app.use('/api/address',addressRouter)
+app.use('/api/order',orderRouter)
+app.use('/api/cart', cartRouter)
 
-// ✅ Start the server
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
+
+//start the app
+app.listen(port,()=>{
+    console.log(`Server is running on http://localhost:${port}`)
+})

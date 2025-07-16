@@ -38,8 +38,8 @@ export const placeOrderCOD = async(req,res)=>{
 export const placeOrderStripe = async(req,res)=>{
     try {
         const { items , address } = req.body;
-        const userId = req.user._id; 
         const{origin} = req.headers;
+        const userId = req.user._id;
 
         if(!address || items.length===0){
             return res.json({success: false,message:"Invalid data"})
@@ -76,7 +76,7 @@ export const placeOrderStripe = async(req,res)=>{
                     product_data:{
                         name: item.name,
                     },
-                    unit_amount: Math.round((item.price + item.price * 0.02)*100)
+                    unit_amount: Math.floor(item.price + item.price * 0.02)*100
                 },
                 quantity: item.quantity,
             }
@@ -90,7 +90,7 @@ export const placeOrderStripe = async(req,res)=>{
             cancel_url: `${origin}/cart`,
             metadata: {
                 orderId: order._id.toString(),
-                userId: userId.toString(),
+                userId,
             }
         })
 
@@ -136,7 +136,7 @@ export const stripeWebhooks = async(request,response)=>{
            break;
  
         }
-        case "payment_intent.succeeded":{
+        case "payment_intent.payment_failed":{
             const paymentIntent= event.data.object;
             const paymentIntentId= paymentIntent.id;
 
