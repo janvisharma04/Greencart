@@ -6,10 +6,11 @@ const BestSeller = () => {
   const { products } = useAppContext();
 
   return (
-    <div className='mt-16 px-4'>
-      <p className='text-2xl md:text-3xl font-medium mb-6 text-center'>Best Sellers</p> 
+    <div className='mt-16'>
+      <p className='text-2xl md:text-3xl font-medium mb-6'>Best Sellers</p> 
+      {/* ↑ Added mb-6 to give spacing below the heading */}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6 place-items-center">
+      <div className="grid grid-cols-1 justify-items-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
         {products
           .filter((product) => product.inStock)
           .slice(0, 5)
