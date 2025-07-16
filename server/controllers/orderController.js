@@ -90,7 +90,7 @@ export const placeOrderStripe = async(req,res)=>{
             cancel_url: `${origin}/cart`,
             metadata: {
                 orderId: order._id.toString(),
-                userId,
+                userId: userId.toString(),
             }
         })
 
