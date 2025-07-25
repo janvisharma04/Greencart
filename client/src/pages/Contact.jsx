@@ -11,9 +11,9 @@ const Contact = () => {
             {/* Contact Details */}
             <div className="bg-white rounded-lg shadow-md p-6 mb-10 border border-gray-300">
                 <h2 className="text-xl font-semibold text-gray-800 mb-4">Get in Touch</h2>
-                <p className="text-gray-600 mb-2"><strong>Address:</strong> 123 College Lane, Cityville, State, ZIP</p>
+                <p className="text-gray-600 mb-2"><strong>Address: </strong> 123 College Lane, CCET Chandigarh Sec 26</p>
                 <p className="text-gray-600 mb-2"><strong>Phone:</strong> +91-9876543210</p>
-                <p className="text-gray-600 mb-4"><strong>Email:</strong> support@collegechatbot.com</p>
+                <p className="text-gray-600 mb-4"><strong>Email:</strong> janviccet@gmail.com</p>
             </div>
 
             {/* Contact Form */}
